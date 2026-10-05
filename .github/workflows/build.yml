@@ -1,9 +1,6 @@
 name: Build Chest Method
 
-"on":
-  push:
-  pull_request:
-  workflow_dispatch:
+"on": [push, pull_request, workflow_dispatch]
 
 permissions:
   contents: write
@@ -24,23 +21,12 @@ jobs:
 
       - name: Build
         run: |
-          chmod +x ./gradlew
+          chmod +x gradlew
           ./gradlew build --no-daemon --stacktrace
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: chestmethod-jar
-          path: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
-          if-no-files-found: error
-
-      - name: Create Release
-        if: startsWith(github.ref, "refs/tags/v")
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
+          path: build/libs/*.jar
 ```
