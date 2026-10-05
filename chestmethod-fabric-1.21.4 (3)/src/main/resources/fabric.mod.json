@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "chestmethod",
+  "version": "${version}",
+  "name": "Chest Method",
+  "description": "Affiche les coffres, barils, ender chests et shulkers a travers les blocs, avec des lignes depuis le joueur.",
+  "authors": ["Chest Method"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/chestmethod/icon.png",
+  "environment": "client",
+  "entrypoints": { "client": ["fr.chestmethod.ChestMethodClient"] },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
