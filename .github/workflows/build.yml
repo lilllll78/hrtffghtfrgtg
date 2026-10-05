@@ -1,9 +1,12 @@
 name: Build Chest Method
 
-"on": [push, pull_request, workflow_dispatch]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -23,10 +26,3 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build --no-daemon --stacktrace
-
-      - name: Upload JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: chestmethod-jar
-          path: build/libs/*.jar
-```
