@@ -1,3 +1,4 @@
+```yaml
 name: Build Chest Method
 
 on:
@@ -11,36 +12,38 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
+
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - name: Show files
-        run: ls -la
-
-      - uses: actions/setup-java@v5
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 21
+          java-version: '21'
+          cache: gradle
 
-      - uses: gradle/actions/setup-gradle@v5
-        with:
-          gradle-version: "8.12"
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
 
       - name: Build
-        run: gradle build --no-daemon --stacktrace
+        run: ./gradlew build --no-daemon --stacktrace
 
-      - name: Upload jar
+      - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: chestmethod-jar
           path: |
             build/libs/*.jar
             !build/libs/*-sources.jar
+          if-no-files-found: error
 
-      - name: Create release (on tag v*)
+      - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: |
             build/libs/*.jar
             !build/libs/*-sources.jar
+```
